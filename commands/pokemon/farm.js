@@ -13,7 +13,7 @@ module.exports = {
     let val = `Baies : <:ceriz:998163243895894087> ${player.inventory.ceriz} \n`;
     for (let i = 0; i < farm.level - freePlot; i++){
       let currentBerry = farm.plantations[i];
-      val += `Champ ${i+1} : ${currentBerry.emoji} : <t:${parseInt(currentBerry.date+currentBerry.timeToGrow)}:R>`
+      val += `Champ ${i+1} : ${currentBerry.emoji} : <t:${parseInt(currentBerry.date+currentBerry.timeToGrow)}:R>\n`
     }
     for (let i = 1; i <= freePlot; i++) {
       val += `Champ ${farm.level - freePlot + i} : :green_square:\n`
