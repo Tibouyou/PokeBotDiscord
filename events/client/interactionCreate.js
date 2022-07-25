@@ -1,4 +1,5 @@
 const ownerId = '242685182900043786';
+const { Collection } = require('mongoose');
 const { Player } = require('../../models/listmodel');
 
 module.exports = {
@@ -15,10 +16,28 @@ module.exports = {
         if (player) return interaction.reply('Vous avez déjà utilisé la commande \`/play\` !')
       }
       const cmd = client.commands.get(interaction.commandName);
-      if (!cmd) return interaction.reply("Cette command n'existe pas!");
+      if (!cmd) return interaction.reply("Cette commande n'existe pas!");
 
       if(cmd.ownerOnly) {
         if (interaction.user.id != ownerId) return interaction.reply('La seule personne pouvant taper cette commande est le développeur du bot');
+      }
+
+      if(interaction.commandName == "explore") {
+        let cdMap = client.cooldowns.get("explore");
+        if (cdMap.includes(interaction.user.id)) {
+          if (interaction.user.id != ownerId) return interaction.reply('Vous devez attendre avant de pouvoir refaire cette commande');
+        } else {
+          cdMap.push(interaction.user.id)
+        }
+      }
+
+      if(interaction.commandName == "rollpokemon") {
+        let cdMap = client.cooldowns.get("rollpokemon");
+        if (cdMap.includes(interaction.user.id)) {
+          if (interaction.user.id != ownerId) return interaction.reply('Vous devez attendre avant de pouvoir refaire cette commande');
+        } else {
+          cdMap.push(interaction.user.id)
+        }
       }
 
       cmd.runInteraction(client, interaction);

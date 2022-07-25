@@ -110,7 +110,7 @@ module.exports = {
     let compteur = 0;
     donjon = Array.from({length: size}, () => Array.from({length: size}));
     explored = Array.from({length: size}, () => Array.from({length: size}));
-    console.log(donjon[2][3]);
+    donjon[0][0] = "🟩";
     do {
       ligne = getRandomIntInclusive(0,size-1);
       colonne = getRandomIntInclusive(0,size-1);

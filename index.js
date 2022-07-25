@@ -6,6 +6,9 @@ const Logger = require('./utils/Logger');
 
 
 ['commands', 'buttons', 'selects'].forEach(x => client[x] = new Collection());
+client.cooldowns = new Map();
+client.cooldowns.set('explore', []);
+client.cooldowns.set('rollpokemon', []);
 
 ['CommandUtil', 'EventUtil', 'ButtonUtil', 'SelectUtil'].forEach(handler => {require(`./utils/handlers/${handler}`)(client)});
 
