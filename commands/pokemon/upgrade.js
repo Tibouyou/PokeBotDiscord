@@ -32,7 +32,7 @@ module.exports = {
           if (player.money < cost[player.farm.level-1]) return i.update({content: `Il vous manque ${cost[player.farm.level-1] - player.money} <:pokepiece:998163328247529542>`, components: []});
           player.farm.level += 1;
           player.markModified('farm');
-          player.money -= cost[player.farm.level-1];
+          player.money -= cost[player.farm.level-2];
           player.save();
           i.update({content:`Vous avez bien améliorer votre ferme au niveau ${player.farm.level}`, components: []});
         } else {
