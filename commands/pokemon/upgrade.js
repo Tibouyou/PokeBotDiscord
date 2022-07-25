@@ -29,7 +29,7 @@ module.exports = {
     collector.on('collect', async i => {
       if (i.user.id === interaction.user.id) {
         if (i.customId === 'confirm') {
-          if (player.money <= cost[player.farm.level-1]) return i.update({content: `Il vous manque ${cost[player.farm.level-1] - player.money} <:pokepiece:998163328247529542>`, components: []});
+          if (player.money < cost[player.farm.level-1]) return i.update({content: `Il vous manque ${cost[player.farm.level-1] - player.money} <:pokepiece:998163328247529542>`, components: []});
           player.farm.level += 1;
           player.markModified('farm');
           player.money -= cost[player.farm.level-1];
