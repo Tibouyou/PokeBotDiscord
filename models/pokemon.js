@@ -6,7 +6,7 @@ const pokemonSchema = mongoose.Schema({
   emoji: String,
   emojiShiny: String,
   isShiny: { 'type': Boolean, 'default': false }, 
-  pc: { 'type': Number, 'default': 1 }, 
+  pc: { 'type': Number, 'default': 0 }, 
 });
 
 module.exports = mongoose.model('Pokemon', pokemonSchema);
