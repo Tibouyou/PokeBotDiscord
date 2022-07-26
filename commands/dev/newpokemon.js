@@ -28,6 +28,12 @@ module.exports = {
       description: 'Choisir l\'émojie du pokémon shiny',
       type: 'STRING',
       required: true,
+    },
+    {
+      name: 'zone',
+      description: 'Choisir la zone du pokémon',
+      type: 'NUMBER',
+      required: true,
     }
   ],
   async runInteraction(client, interaction) {
@@ -35,8 +41,9 @@ module.exports = {
     const name = interaction.options.getString('name');
     const emoji = interaction.options.getString('emoji');
     const emojiS = interaction.options.getString('emojishiny');
+    const zone = interaction.options.getNumber('zone');
 
-    const createPokemon = await new Pokemon({ number: number, name: name, emoji: emoji, emojiShiny: emojiS });
+    const createPokemon = await new Pokemon({ number: number, name: name, emoji: emoji, emojiShiny: emojiS, zone: zone });
     createPokemon.save().then(p => console.log(`Nouveau pokémon (${p.name})`));
     interaction.reply('Pokémon ajouté dans la BDD');
   }

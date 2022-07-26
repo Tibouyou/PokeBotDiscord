@@ -5,6 +5,7 @@ const pokemonSchema = mongoose.Schema({
   name: String,
   emoji: String,
   emojiShiny: String,
+  zone: Number,
   isShiny: { 'type': Boolean, 'default': false }, 
   pc: { 'type': Number, 'default': 0 }, 
 });
