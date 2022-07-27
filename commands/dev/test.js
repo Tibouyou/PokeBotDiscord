@@ -1,4 +1,4 @@
-const schedule = require('node-schedule');
+const { Pokemon } = require('../../models/listmodel');
 
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
@@ -25,7 +25,14 @@ module.exports = {
   ownerOnly: true,
   description: 'placeholder',
   async runInteraction(client, interaction) {
-    let zone = 5;
-    console.log(getRandomIntInclusive(listePC[zone][0],listePC[zone][1]));
+    let zone = 2;
+    const pokemonList = await Pokemon.find({
+      $and: [
+        {zone: { $gte: 1}},
+        {zone: { $lt : zone+1 }}
+      ]
+    });
+    const pokemonNumber = Math.floor(Math.random() * pokemonList.length);
+    console.log(pokemonList.length,pokemonNumber);
   }
 }
