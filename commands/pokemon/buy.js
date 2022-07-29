@@ -1,7 +1,8 @@
 const { Player } = require('../../models/listmodel');
 const { MessageActionRow, MessageButton } = require('discord.js');
 
-const buyable = ['pokeball', 'superball', 'hyperball', 'masterball', 'ceriz'];
+const buyable = {'pokeball':200, 'superball':600, 'hyperball':1200, 'masterball':50000, 'ceriz':50, "maron":100, "pecha":200, "fraive":300, "willia":500, "mepo":750, "oran":1500, "kika":3000, "prine":7500, "sitrus":15000};
+const emoji = {'pokeball':'<:pokeBall:998163291543195709>', 'superball':'<:superBall:998163292654665768>', 'hyperball':'<:hyperBall:998163289114681374>', 'masterball':'<:masterBall:998163290293284945>', 'ceriz':'<:ceriz:998163243895894087>', "maron":"<:maron:998163247435890768>", "pecha":"<:pecha:998163250854248510>", "fraive":"<:fraive:998163244986404954>", "willia":"<:willia:998163254914326599>", "mepo":"<:mepo:998163248589328415>", "oran":"<:oran:998163249671450694>", "kika":"<:kika:998163246307622982>", "prine":"<:prine:998163252355797102>", "sitrus":"<:sitrus:998163253656031315>"};
 
 const buttons = new MessageActionRow()
   .addComponents(
@@ -37,31 +38,10 @@ module.exports = {
   async runInteraction(client, interaction) {
     const object = interaction.options.getString('object').toLowerCase();
     const amount = interaction.options.getNumber('amount');
-    if (!buyable.includes(object)) return interaction.reply('Cet object n\'existe pas !');
+    if (!(object in buyable)) return interaction.reply('Cet objet n\'existe pas !');
     const player = await Player.findOne({ id: interaction.user.id });
-    let emoji;
-    let price;
-    if (object == 'pokeball') {
-      emoji = '<:pokeBall:998163291543195709>';
-      price = amount * 200;
-      interaction.reply({content :`Voulez vous vraiment acheter ${emoji} x${amount} pour ${price} <:pokepiece:998163328247529542>`, components: [buttons]});
-    } else if (object == 'superball'){
-      emoji = '<:superBall:998163292654665768>';
-      price = amount * 600;
-      interaction.reply({content :`Voulez vous vraiment acheter ${emoji} x${amount} pour ${price} <:pokepiece:998163328247529542>`, components: [buttons]});
-    } else if (object == 'hyperball'){
-      emoji = '<:hyperBall:998163289114681374>';
-      price = amount * 1200;
-      interaction.reply({content :`Voulez vous vraiment acheter ${emoji} x${amount} pour ${price} <:pokepiece:998163328247529542>`, components: [buttons]});
-    } else if (object == 'masterball'){
-      emoji = '<:masterBall:998163290293284945>';
-      price = amount * 50000;
-      interaction.reply({content :`Voulez vous vraiment acheter ${emoji} x${amount} pour ${price} <:pokepiece:998163328247529542>`, components: [buttons]});
-    } else if (object == 'ceriz'){
-      emoji = '<:ceriz:998163243895894087>';
-      price = amount * 50;
-      interaction.reply({content :`Voulez vous vraiment acheter ${emoji} x${amount} pour ${price} <:pokepiece:998163328247529542>`, components: [buttons]});
-    }    
+    const price = amount * buyable[object];
+    interaction.reply({content :`Voulez vous vraiment acheter ${emoji[object]} x${amount} pour ${price} <:pokepiece:998163328247529542>`, components: [buttons]});
     const message = await interaction.fetchReply();
     const collector = message.createMessageComponentCollector({ componentType: 'BUTTON', time: 30000 });
     collector.on('collect', async i => {
@@ -72,7 +52,7 @@ module.exports = {
           player.markModified('inventory');
           player.money -= price;
           player.save();
-          i.update({content:`Vous avez bien acheté ${emoji}${object} x${amount} pour ${price} <:pokepiece:998163328247529542>`, components: []});
+          i.update({content:`Vous avez bien acheté ${emoji[object]}${object} x${amount} pour ${price} <:pokepiece:998163328247529542>`, components: []});
         } else {
           i.update({content:`Achat annulé !`, components: []});
         }

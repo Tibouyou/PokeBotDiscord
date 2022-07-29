@@ -1,5 +1,10 @@
 const { MessageEmbed } = require('discord.js');
 const { MessageActionRow, MessageButton } = require('discord.js');
+const { Baie, Player } = require('../../models/listmodel');
+
+const ball = ["pokeball", "superball", "hyperball", "masterball"];
+const berry = ["ceriz", "maron", "pecha", "fraive", "willia", "mepo", "oran", "kika", "prine", "sitrus"];
+const cost = {"ceriz":50, "maron":100, "pecha":200, "fraive":300, "willia":500, "mepo":750, "oran":1500, "kika":3000, "prine":7500, "sitrus":15000};
 
 module.exports = {
   name: 'shop',
@@ -26,9 +31,15 @@ module.exports = {
     .setTimestamp()
     .setFooter({ text: client.user.username , iconURL: client.user.displayAvatarURL() });
 
+    let berryString = '';
+    for(let i = 0; i < berry.length; i ++) {
+      const baie = await Baie.findOne({name: berry[i]});
+      berryString += `${baie.emoji} ${berry[i]} : ${cost[berry[i]]} <:pokepiece:998163328247529542>\n`;
+    }
+
     const embedBerry = new MessageEmbed()
     .setTitle('Shop')
-    .setDescription('<:ceriz:998163243895894087> Ceriz : 50 <:pokepiece:998163328247529542>')
+    .setDescription(berryString)
     .setTimestamp()
     .setFooter({ text: client.user.username , iconURL: client.user.displayAvatarURL() });
   

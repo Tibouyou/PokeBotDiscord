@@ -1,6 +1,7 @@
 const { MessageEmbed } = require('discord.js');
-const { Player } = require('../../models/listmodel');
+const { Player, Baie } = require('../../models/listmodel');
 
+const berry = ["ceriz", "maron", "pecha", "fraive", "willia", "mepo", "oran", "kika", "prine", "sitrus"];
 
 module.exports = {
   name: 'farm',
@@ -10,7 +11,12 @@ module.exports = {
     let player = await Player.findOne({ id: interaction.user.id });
     const farm = player.farm;
     const freePlot = farm.level - farm.plantations.length;
-    let val = `Baies : <:ceriz:998163243895894087> ${player.inventory.ceriz} \n`;
+    let val = 'Baies : ';
+    for(let i = 0; i < berry.length; i ++) {
+      const baie = await Baie.findOne({name: berry[i]});
+      val += `${baie.emoji} ${player.inventory[berry[i]]} `;
+    }
+    val += '\n';
     for (let i = 0; i < farm.level - freePlot; i++){
       let currentBerry = farm.plantations[i];
       val += `Champ ${i+1} : ${currentBerry.emoji} : <t:${parseInt(currentBerry.date+currentBerry.timeToGrow)}:R>\n`

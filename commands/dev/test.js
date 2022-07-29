@@ -1,38 +1,22 @@
-const { Pokemon } = require('../../models/listmodel');
+const { Player } = require('../../models/listmodel');
 
-function getRandomIntInclusive(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min +1)) + min;
+function formatNumber(number){
+  if (number > 1000000000) return `${(number/1000000000).toFixed(1)}B`
+  if (number > 1000000) return `${(number/1000000).toFixed(1)}M`
+  if (number > 1000) return `${(number/1000).toFixed(1)}K`
 }
 
-const listePC = {
-  1 : [2,4],
-  2 : [8,16],
-  3 : [32,64],
-  4 : [128,256],
-  5 : [512,1024],
-  6 : [2048,4096],
-  7 : [8192,16384],
-  8 : [32768,65536],
-  9 : [131072,262144],
-  10 : [524288,1000000],
-  11 : [1250000,2500000]
-}
+const ball = ["pokeball", "superball", "hyperball", "masterball"];
+const berry = ["ceriz"];
+const emoji = {"pokeball": "<:pokeBall:998163291543195709>", "superball": "<:superBall:998163292654665768>", "hyperball": "<:hyperBall:998163289114681374>", "masterball": "<:masterBall:998163290293284945>", "ceriz": "<:ceriz:998163243895894087>"};
 
 module.exports = {
   name: 'test',
   ownerOnly: true,
   description: 'placeholder',
   async runInteraction(client, interaction) {
-    let zone = 2;
-    const pokemonList = await Pokemon.find({
-      $and: [
-        {zone: { $gte: 1}},
-        {zone: { $lt : zone+1 }}
-      ]
-    });
-    const pokemonNumber = Math.floor(Math.random() * pokemonList.length);
-    console.log(pokemonList.length,pokemonNumber);
+    const player = await Player.findOne({ id: interaction.user.id });
+    const pokeballString = ball.map(x => `${emoji[x]} ${player.inventory[x]}`).join(' ');
+    interaction.reply(pokeballString);
   }
 }
