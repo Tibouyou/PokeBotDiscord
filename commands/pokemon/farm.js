@@ -14,7 +14,7 @@ module.exports = {
     let val = 'Baies : ';
     for(let i = 0; i < berry.length; i ++) {
       const baie = await Baie.findOne({name: berry[i]});
-      val += `${baie.emoji} ${player.inventory[berry[i]]} `;
+      if (player.inventory[berry[i]] > 0) val += `${baie.emoji} ${player.inventory[berry[i]]} `;
     }
     val += '\n';
     for (let i = 0; i < farm.level - freePlot; i++){

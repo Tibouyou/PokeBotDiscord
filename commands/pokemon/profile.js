@@ -9,8 +9,8 @@ function formatNumber(number){
 }
 
 const ball = ["pokeball", "superball", "hyperball", "masterball"];
-const berry = ["ceriz"];
-const emoji = {"pokeball": "<:pokeBall:998163291543195709>", "superball": "<:superBall:998163292654665768>", "hyperball": "<:hyperBall:998163289114681374>", "masterball": "<:masterBall:998163290293284945>", "ceriz": "<:ceriz:998163243895894087>"};
+const berry = ["ceriz", "maron", "pecha", "fraive", "willia", "mepo", "oran", "kika", "prine", "sitrus"];
+const emoji = {'pokeball':'<:pokeBall:998163291543195709>', 'superball':'<:superBall:998163292654665768>', 'hyperball':'<:hyperBall:998163289114681374>', 'masterball':'<:masterBall:998163290293284945>', 'ceriz':'<:ceriz:998163243895894087>', "maron":"<:maron:998163247435890768>", "pecha":"<:pecha:998163250854248510>", "fraive":"<:fraive:998163244986404954>", "willia":"<:willia:998163254914326599>", "mepo":"<:mepo:998163248589328415>", "oran":"<:oran:998163249671450694>", "kika":"<:kika:998163246307622982>", "prine":"<:prine:998163252355797102>", "sitrus":"<:sitrus:998163253656031315>"};
 
 module.exports = {
   name: 'profile',
@@ -19,8 +19,12 @@ module.exports = {
   async runInteraction(client, interaction) {
     const sumPoke = await Pokemon.estimatedDocumentCount() - 1;
     const player = await Player.findOne({ id: interaction.user.id });
-    const pokeballString = ball.map(x => `${emoji[x]} ${player.inventory[x]}`).join(' ');
-    const berryString = berry.map(x => `${emoji[x]} ${player.inventory[x]}`).join(' ');
+    const pokeballString = ball.map(x => {
+      if (player.inventory[x] > 0) return `${emoji[x]} ${player.inventory[x]}`;   
+      }).join(' ') + 'ㅤ';
+    const berryString = berry.map(x => {
+      if (player.inventory[x] > 0) return `${emoji[x]} ${player.inventory[x]}`;   
+      }).join(' ') + 'ㅤ';
     let pc = 0;
     player.pokemon.forEach(x => pc += x.pc);
     const embed = new MessageEmbed()

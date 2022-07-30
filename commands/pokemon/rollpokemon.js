@@ -8,6 +8,8 @@ function formatNumber(number){
   return number;
 }
 
+const capture = { "pokeball" : 0.3, "superball" : 0.5, "hyperball" : 0.75, "masterball" : 10 };
+
 const listePC = {
   1 : [2,4],
   2 : [8,16],
@@ -39,16 +41,13 @@ async function tryCatchPokemon(interaction, player, pokemonToPush) {
   } else {
     player.inventory[interaction.customId] -= 1;
     player.markModified('pokeball')
-    if (interaction.customId == 'pokeball') {
-      captureChance = 0.3;
-    } else if (interaction.customId == 'superball') {
-      captureChance = 0.5;
-    } else if (interaction.customId == 'hyperball') {
-      captureChance = 0.75;
-    } else if (interaction.customId == 'masterball') {
-      captureChance = 0.99;
+    if (pokemonToPush.zone > 9) {
+      captureChance = capture[interaction.customId] - capture[interaction.customId]/2;
+    } else {
+      captureChance = capture[interaction.customId] - capture[interaction.customId]/(11-pokemonToPush.zone);
     }
-  }  
+  }
+  console.log(captureChance);
   if (Math.random() < captureChance) {
     const file = new MessageAttachment(`./assets/pokemon/${!pokemonToPush.isShiny ? pokemonToPush.number : `${pokemonToPush.number}S`}.png`);
     const embed = new MessageEmbed()
@@ -88,7 +87,7 @@ async function tryCatchPokemon(interaction, player, pokemonToPush) {
     )
     const file = new MessageAttachment(`./assets/pokemon/${!pokemonToPush.isShiny ? pokemonToPush.number : `${pokemonToPush.number}S`}.png`);
     const embed = new MessageEmbed()
-      .setDescription(`Vous venez de rencontrer un **${!pokemonToPush.isShiny ? `${pokemonToPush.name}** PC : ${formatNumber(pokemonToPush.pc)}` : `${pokemonToPush.name}** PC : ${formatNumber(pokemonToPush.pc)}\n \nCes couleurs semblent inhabituelles...`}\n\n Le pokémon fuira dans <t:${parseInt(Date.now()/1000+30)}:R>\n\n ${enoughBall? `Vous avez raté votre ${interaction.customId == 'masterball' ? 'masterball, elle était probablement défectueuse' : interaction.customId} !` : `Vous n'avez pas assez de ${interaction.customId}`}`)
+      .setDescription(`Vous venez de rencontrer un **${!pokemonToPush.isShiny ? `${pokemonToPush.name}** PC : ${formatNumber(pokemonToPush.pc)}` : `${pokemonToPush.name}** PC : ${formatNumber(pokemonToPush.pc)}\n \nCes couleurs semblent inhabituelles...`}\n\n Le pokémon fuira dans <t:${parseInt(Date.now()/1000+30)}:R>\n\n ${enoughBall? `Vous avez raté votre ${interaction.customId} !` : `Vous n'avez pas assez de ${interaction.customId}`}`)
       .setThumbnail(`attachment://${!pokemonToPush.isShiny ? pokemonToPush.number : `${pokemonToPush.number}S`}.png`)
   interaction.update({embeds: [embed], files: [file], components: [buttons]});   
   const filter = i => i.user.id === interaction.user.id;
@@ -152,7 +151,7 @@ module.exports = {
       emoji: pokemon.emoji,
       emojiShiny: pokemon.emojiShiny,
       zone: pokemon.zone, 
-      isShiny: (Math.random() <= 0.25) ? true : false,
+      isShiny: (Math.random() <= 0.008) ? true : false,
       pc: getRandomIntInclusive(listePC[pokemon.zone][0],listePC[pokemon.zone][1])
     })  
     const file = new MessageAttachment(`./assets/pokemon/${!pokemonToPush.isShiny ? pokemonToPush.number : `${pokemonToPush.number}S`}.png`);
