@@ -47,7 +47,6 @@ async function tryCatchPokemon(interaction, player, pokemonToPush) {
       captureChance = capture[interaction.customId] - capture[interaction.customId]/(11-pokemonToPush.zone);
     }
   }
-  console.log(captureChance);
   if (Math.random() < captureChance) {
     const file = new MessageAttachment(`./assets/pokemon/${!pokemonToPush.isShiny ? pokemonToPush.number : `${pokemonToPush.number}S`}.png`);
     const embed = new MessageEmbed()

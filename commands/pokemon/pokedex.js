@@ -6,12 +6,12 @@ const buttons = new MessageActionRow()
   .addComponents(
     new MessageButton()
       .setCustomId('pagedown-button')
-      .setLabel('-1')
+      .setLabel('⬅')
       .setStyle('SECONDARY'),
       
     new MessageButton()
       .setCustomId('pageup-button')
-      .setLabel('+1')
+      .setLabel('➡')
       .setStyle('SECONDARY'),
   )  
 

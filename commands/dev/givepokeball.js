@@ -47,9 +47,7 @@ module.exports = {
     const pokeballType = interaction.options.getString('pokeball').toLowerCase();
     const amount = interaction.options.getNumber('amount');
     const player = await Player.findOne({ id: target.id });
-    console.log(player.inventory[pokeballType]);
     player.inventory[pokeballType] += amount;
-    console.log(player.inventory[pokeballType]);
     player.markModified('inventory')
     player.save();
     

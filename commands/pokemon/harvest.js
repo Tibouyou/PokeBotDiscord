@@ -18,7 +18,6 @@ module.exports = {
       }
     }
     for (let i = numberToSplice.length - 1; i >= 0; i-- ) {
-      console.log(numberToSplice[i]);
       player.farm.plantations.splice(numberToSplice[i], 1);
     }
     if (harvested.length == 0) {

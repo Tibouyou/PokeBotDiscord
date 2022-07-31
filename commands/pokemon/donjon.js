@@ -105,7 +105,6 @@ module.exports = {
     size = getRandomIntInclusive(3,8);
     let nbChest = getRandomIntInclusive(Math.round(size/2),size);
     let nbRencontre = getRandomIntInclusive(Math.round(size/2),size);
-    console.log(nbRencontre, nbChest);
     let explored;
     let compteur = 0;
     donjon = Array.from({length: size}, () => Array.from({length: size}));
