@@ -120,7 +120,6 @@ async function moove(interaction, pos, client, player, explored) {
       }
       break;
     case "🏆":
-      console.log(explored[pos[0]][pos[1]]);
       if (explored[pos[0]][pos[1]]) {
         currentCase = "Vous n'avez rien rencontré de spécial sur cette case";
       } else {

@@ -37,7 +37,9 @@ process.on('unhandledRejection', (reason, promise) => {
 //process.on('warning', (...args) => Logger.warn(...args));
 
 const rule1 = new schedule.RecurrenceRule();
-rule1.hour = [0,2,4,6,8,10,12,14,16,18,20,22,24];
+rule1.hour = [0,2,4,6,8,10,12,14,16,18,20,22];
+rule1.minute = 0;
+
 schedule.scheduleJob(rule1, function(){
   reset("donjon");
 });
@@ -49,7 +51,8 @@ schedule.scheduleJob(rule2, function(){
 });
 
 const rule3 = new schedule.RecurrenceRule();
-rule3.hour = [0,24];
+rule3.hour = [0];
+rule.minute = 0;
 schedule.scheduleJob(rule3, function(){
   reset("daily");
 });
