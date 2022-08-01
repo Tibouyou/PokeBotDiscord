@@ -6,6 +6,11 @@ const ball = ["pokeball", "superball", "hyperball", "masterball"];
 const berry = ["ceriz", "maron", "pecha", "fraive", "willia", "mepo", "oran", "kika", "prine", "sitrus"];
 const cost = {"ceriz":50, "maron":100, "pecha":200, "fraive":300, "willia":500, "mepo":750, "oran":1500, "kika":3000, "prine":7500, "sitrus":15000};
 
+function formatNumber(second){
+  if (second < 3600) return `(${second/60}m)`;
+  return `(${second/60/60}H)`;
+}
+
 module.exports = {
   name: 'shop',
   ownerOnly: false,
@@ -35,7 +40,7 @@ module.exports = {
     let berryString = '';
     for(let i = 0; i < berry.length; i ++) {
       const baie = await Baie.findOne({name: berry[i]});
-      berryString += `${baie.emoji} ${berry[i]} : ${cost[berry[i]]} <:pokepiece:998163328247529542>\n`;
+      berryString += `${baie.emoji} ${berry[i]} : ${cost[berry[i]]} <:pokepiece:998163328247529542> ${formatNumber(baie.timeToGrow)}\n`;
     }
 
     const embedBerry = new MessageEmbed()
