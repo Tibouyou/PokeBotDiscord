@@ -2,6 +2,12 @@ const Logger = require('../../utils/Logger');
 const schedule = require('node-schedule');
 const { Cooldown } = require('../../models/listmodel');
 
+async function reset(command) {
+  let cd = await Cooldown.findOne({name:command});
+  cd.users = [];
+  cd.save();
+}
+
 module.exports = {
   name: 'ready',
   once: true,
@@ -23,32 +29,20 @@ module.exports = {
 
     const rule1 = new schedule.RecurrenceRule();
     rule1.hour = [0,2,4,6,8,10,12,14,16,18,20,22];
-
-    let cdDonjon = await Cooldown.findOne({name:"donjon"});
-
     schedule.scheduleJob(rule1, function(){
-      cdDonjon.users = [];
-      cdDonjon.save();
+      reset("donjon");
     });
 
     const rule2 = new schedule.RecurrenceRule();
     rule2.minute = [0,30];
-
-    let cdRoll = await Cooldown.findOne({name:"rollpokemon"});
-
     schedule.scheduleJob(rule2, function(){
-      cdRoll.users = [];
-      cdRoll.save();
+      reset("rollpokemon");
     });
 
     const rule3 = new schedule.RecurrenceRule();
-    rule2.hour = [0];
-
-    let cdDaily = await Cooldown.findOne({name:"daily"});
-
+    rule3.hour = [0];
     schedule.scheduleJob(rule3, function(){
-      cdDaily.users = [];
-      cdDaily.save();
+      reset("daily");
     });
   },
 };
