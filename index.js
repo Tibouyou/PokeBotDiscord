@@ -52,7 +52,7 @@ schedule.scheduleJob(rule2, function(){
 
 const rule3 = new schedule.RecurrenceRule();
 rule3.hour = [0];
-rule.minute = 0;
+rule3.minute = 0;
 schedule.scheduleJob(rule3, function(){
   reset("daily");
 });
