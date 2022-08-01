@@ -86,12 +86,15 @@ async function moove(interaction, pos, client, player, explored) {
       }
       break;  
   }
-  explored[pos[0]][pos[1]] = true;
   desc = "";
   for(let i = 0; i < size; i++) {
     for(let j=0; j < size; j++) {
       if (!explored[i][j]) {
-        desc += "⬛";
+        if (i == pos[0] && j == pos[1]) {
+          desc += ":polar_bear:";
+        } else {
+          desc += "⬛";
+        }
       } else {
         if (i == pos[0] && j == pos[1]) {
           desc += ":polar_bear:";
@@ -105,8 +108,8 @@ async function moove(interaction, pos, client, player, explored) {
   let currentCase = '';
   switch (donjon[pos[0]][pos[1]]) {
     case "<:dracaufeu:998691505734692976>":
-      if (explored[pos[0][pos[1]]]) {
-        "Vous n'avez rien rencontré de spécial sur cette case";
+      if (explored[pos[0]][pos[1]]) {
+        currentCase = "Vous n'avez rien rencontré de spécial sur cette case";
       } else {
         nbLife -= 1;
         if (nbLife <= 0) {
@@ -117,8 +120,9 @@ async function moove(interaction, pos, client, player, explored) {
       }
       break;
     case "🏆":
-      if (explored[pos[0][pos[1]]]) {
-        "Vous n'avez rien rencontré de spécial sur cette case";
+      console.log(explored[pos[0]][pos[1]]);
+      if (explored[pos[0]][pos[1]]) {
+        currentCase = "Vous n'avez rien rencontré de spécial sur cette case";
       } else {
         nbCoffre += 1
         if (nbCoffre >= maxCoffre) {
@@ -138,6 +142,7 @@ async function moove(interaction, pos, client, player, explored) {
       currentCase = "Vous n'avez rien rencontré de spécial sur cette case";
       break;   
   }
+  explored[pos[0]][pos[1]] = true;
 
   const embed = new MessageEmbed()
     .setAuthor({ name: `${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
@@ -153,6 +158,11 @@ async function moove(interaction, pos, client, player, explored) {
     .then(async interaction => { 
       moove(interaction, pos, client, player, explored);
     })
+    .catch(err => {
+      const lastEmbed = new MessageEmbed()
+      .setDescription(`Vous êtes parti du donjon`)
+      message.edit({embeds: [lastEmbed], files: [], components: []});  
+    });
 }
 
 module.exports = {
@@ -224,5 +234,10 @@ module.exports = {
      .then(async interaction => {
       moove(interaction, pos, client, player, explored);
      })
+     .catch(err => {
+      const lastEmbed = new MessageEmbed()
+      .setDescription(`Vous êtes parti du donjon`)
+      message.edit({embeds: [lastEmbed], files: [], components: []});  
+    });
   }
 }

@@ -24,7 +24,7 @@ module.exports = {
       if(interaction.commandName == "donjon") {
         let cdMap = await Cooldown.findOne({name:"donjon"});
         if (cdMap.users.includes(interaction.user.id)) {
-          return interaction.reply('Vous devez attendre avant de pouvoir refaire cette commande');
+          if (!interaction.user.id == ownerId) return interaction.reply('Vous devez attendre avant de pouvoir refaire cette commande');
         } else {
           cdMap.users.push(interaction.user.id)
         }
