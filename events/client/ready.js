@@ -28,7 +28,7 @@ module.exports = {
     //client.application.commands.set(client.commands.map(cmd => cmd))
 
     const rule1 = new schedule.RecurrenceRule();
-    rule1.hour = [0,2,4,6,8,10,12,14,16,18,20,22];
+    rule1.hour = [0,2,4,6,8,10,12,14,16,18,20,22,24];
     schedule.scheduleJob(rule1, function(){
       reset("donjon");
     });
@@ -40,7 +40,7 @@ module.exports = {
     });
 
     const rule3 = new schedule.RecurrenceRule();
-    rule3.hour = [0];
+    rule3.hour = [0,24];
     schedule.scheduleJob(rule3, function(){
       reset("daily");
     });
