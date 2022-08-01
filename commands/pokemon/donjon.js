@@ -154,7 +154,7 @@ async function moove(interaction, pos, client, player, explored) {
   if (nbCoffre >= maxCoffre) return interaction.update({embeds: [embed], components: [] });
   interaction.update({embeds: [embed], components: [buttons] });
   const filter = i => i.user.id === interaction.user.id;
-  await message.awaitMessageComponent({filter, time: 30000 })
+  await message.awaitMessageComponent({filter, time: 60000 })
     .then(async interaction => { 
       moove(interaction, pos, client, player, explored);
     })
@@ -230,7 +230,7 @@ module.exports = {
     interaction.reply({embeds: [embed], components: [buttons] });
     const message = await interaction.fetchReply();
     const filter = i => i.user.id === interaction.user.id;
-    await message.awaitMessageComponent({filter, time: 30000 })
+    await message.awaitMessageComponent({filter, time: 60000 })
      .then(async interaction => {
       moove(interaction, pos, client, player, explored);
      })
