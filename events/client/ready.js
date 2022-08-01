@@ -27,7 +27,7 @@ module.exports = {
     let cdDonjon = await Cooldown.findOne({name:"donjon"});
 
     schedule.scheduleJob(rule1, function(){
-      cdDonjon.length = 0;
+      cdDonjon.users = [];
       cdDonjon.save();
     });
 
