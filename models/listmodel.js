@@ -3,5 +3,6 @@ module.exports = {
   Pokemon: require('./pokemon'),
   Baie: require('./baie'),
   Farm: require('./farm'),
-  Inventory: require('./inventory')
+  Inventory: require('./inventory'),
+  Cooldown: require('./cooldown')
 };

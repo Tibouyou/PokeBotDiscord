@@ -1,6 +1,5 @@
-const ownerId = '242685182900043786';
-const { Collection } = require('mongoose');
-const { Player } = require('../../models/listmodel');
+const ownerId = '242685182900043786 ';
+const { Player, Cooldown } = require('../../models/listmodel');
 
 module.exports = {
   name: 'interactionCreate',
@@ -22,22 +21,34 @@ module.exports = {
         if (interaction.user.id != ownerId) return interaction.reply('La seule personne pouvant taper cette commande est le développeur du bot');
       }
 
-      if(interaction.commandName == "explore") {
-        let cdMap = client.cooldowns.get("explore");
-        if (cdMap.includes(interaction.user.id)) {
+      if(interaction.commandName == "donjon") {
+        let cdMap = await Cooldown.findOne({name:"donjon"});
+        if (cdMap.users.includes(interaction.user.id)) {
           if (interaction.user.id != ownerId) return interaction.reply('Vous devez attendre avant de pouvoir refaire cette commande');
         } else {
-          cdMap.push(interaction.user.id)
+          cdMap.users.push(interaction.user.id)
         }
+        cdMap.save();
       }
 
       if(interaction.commandName == "rollpokemon") {
-        let cdMap = client.cooldowns.get("rollpokemon");
-        if (cdMap.includes(interaction.user.id)) {
+        let cdMap = await Cooldown.findOne({name:"rollpokemon"});
+        if (cdMap.users.includes(interaction.user.id)) {
           if (interaction.user.id != ownerId) return interaction.reply('Vous devez attendre avant de pouvoir refaire cette commande');
         } else {
-          cdMap.push(interaction.user.id)
+          cdMap.users.push(interaction.user.id)
         }
+        cdMap.save();
+      }
+
+      if(interaction.commandName == "daily") {
+        let cdMap = await Cooldown.findOne({name:"daily"});
+        if (cdMap.users.includes(interaction.user.id)) {
+          if (interaction.user.id != ownerId) return interaction.reply('Vous devez attendre avant de pouvoir refaire cette commande');
+        } else {
+          cdMap.users.push(interaction.user.id)
+        }
+        cdMap.save();
       }
 
       cmd.runInteraction(client, interaction);

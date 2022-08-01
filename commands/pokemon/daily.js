@@ -23,14 +23,13 @@ const zoneMoney = {
 
 module.exports = {
   name: 'daily',
-  ownerOnly: true,
+  ownerOnly: false,
   description: 'placeholder',
   async runInteraction(client, interaction) {
     const player = await Player.findOne({ id: interaction.user.id });
     const amount = getRandomIntInclusive(zoneMoney[player.maxZone]*0.9,zoneMoney[player.maxZone]*1.1);
-    //player.money += amount;
-    //player.save();
-    console.log(amount);
-    //interaction.reply(`${amount} pokécoins ajoutés à ${target} !`);
+    player.money += amount;
+    player.save();
+    interaction.reply(`Vous avez gagné ${amount} <:pokepiece:998163328247529542> !`);
   }
 }
