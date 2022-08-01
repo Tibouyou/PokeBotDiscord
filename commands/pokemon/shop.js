@@ -27,7 +27,7 @@ module.exports = {
     )  
     const embedBall = new MessageEmbed()
     .setTitle('Shop')
-    .setDescription('<:pokeBall:998163291543195709> Pokéball : 200 <:pokepiece:998163328247529542>\n<:superBall:998163292654665768> Superball : 600 <:pokepiece:998163328247529542>\n<:hyperBall:998163289114681374> Hyperball : 1800 <:pokepiece:998163328247529542>\n<:masterBall:998163290293284945> Masterball : 25000 <:pokepiece:998163328247529542>\n')
+    .setDescription('<:pokeBall:998163291543195709> pokeball : 200 <:pokepiece:998163328247529542>\n<:superBall:998163292654665768> superball : 600 <:pokepiece:998163328247529542>\n<:hyperBall:998163289114681374> hyperball : 1800 <:pokepiece:998163328247529542>\n<:masterBall:998163290293284945> masterball : 25000 <:pokepiece:998163328247529542>\n')
     .setTimestamp()
     .setColor('#cf102a')
     .setFooter({ text: client.user.username , iconURL: client.user.displayAvatarURL() });
