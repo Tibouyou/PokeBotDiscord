@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const client = new Client({ intents: 1539, partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'USER'] });
 const Logger = require('./utils/Logger');
 const schedule = require('node-schedule');
-const { Cooldown } = require('../../models/listmodel');
+const { Cooldown } = require('./models/listmodel');
 
 async function reset(command) {
   let cd = await Cooldown.findOne({name:command});
