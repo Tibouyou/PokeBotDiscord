@@ -105,27 +105,34 @@ async function moove(interaction, pos, client, player, explored) {
   let currentCase = '';
   switch (donjon[pos[0]][pos[1]]) {
     case "<:dracaufeu:998691505734692976>":
-      nbLife -= 1;
-      if (nbLife <= 0) {
-        currentCase = "Oh non ! Vous êtes tombé sur un pokémon adverse !\nVous n'avez plus de vie, vous devez rentrer chez vous soigner vos pokémons !"
+      if (explored[pos[0][pos[1]]]) {
+        "Vous n'avez rien rencontré de spécial sur cette case";
       } else {
-        currentCase = 'Oh non ! Vous êtes tombé sur un pokémon adverse !';
+        nbLife -= 1;
+        if (nbLife <= 0) {
+          currentCase = "Oh non ! Vous êtes tombé sur un pokémon adverse !\nVous n'avez plus de vie, vous devez rentrer chez vous soigner vos pokémons !"
+        } else {
+          currentCase = 'Oh non ! Vous êtes tombé sur un pokémon adverse !';
+        }
       }
       break;
     case "🏆":
-      nbCoffre += 1
-      if (nbCoffre >= maxCoffre) {
-        const amount = getRandomIntInclusive(zoneMoney[player.maxZone]*0.9,zoneMoney[player.maxZone]*1.1);
-        player.money += amount;
-        player.save();
-        currentCase = `Bravo, vous avez trouvé un coffre qui contenait ${amount} <:pokepiece:998163328247529542>!\nIl n\'y a plus aucun coffre à trouver ici, vous pouvez rentrer chez vous`;
+      if (explored[pos[0][pos[1]]]) {
+        "Vous n'avez rien rencontré de spécial sur cette case";
       } else {
-        const amount = getRandomIntInclusive(zoneMoney[player.maxZone]*0.9,zoneMoney[player.maxZone]*1.1);
-        player.money += amount;
-        player.save();
-        currentCase = `Bravo, vous avez trouvé un coffre qui contenait ${amount} <:pokepiece:998163328247529542>!`;
+        nbCoffre += 1
+        if (nbCoffre >= maxCoffre) {
+          const amount = getRandomIntInclusive(zoneMoney[player.maxZone]*0.9,zoneMoney[player.maxZone]*1.1);
+          player.money += amount;
+          player.save();
+          currentCase = `Bravo, vous avez trouvé un coffre qui contenait ${amount} <:pokepiece:998163328247529542>!\nIl n\'y a plus aucun coffre à trouver ici, vous pouvez rentrer chez vous`;
+        } else {
+          const amount = getRandomIntInclusive(zoneMoney[player.maxZone]*0.9,zoneMoney[player.maxZone]*1.1);
+          player.money += amount;
+          player.save();
+          currentCase = `Bravo, vous avez trouvé un coffre qui contenait ${amount} <:pokepiece:998163328247529542>!`;
+        }
       }
-      
       break; 
     case "🟩":
       currentCase = "Vous n'avez rien rencontré de spécial sur cette case";
