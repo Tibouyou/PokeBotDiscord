@@ -7,8 +7,10 @@ module.exports = {
   async runInteraction(client, interaction) {
     const embed = new MessageEmbed()
       .addFields(
-        {name: 'Comment Jouer ?', value: "`/play` pour s'enregistrer dans la base de données du bot\n`/shop` pour voir les prix des pokéballs et des baies\nVous pouvez commencer par acheter une baie <:ceriz:998163243895894087>**Ceriz**\n`/plant` [nom de la baie à planter] pour planter une baie dans votre ferme\nVous pouvez planter la baie <:ceriz:998163243895894087>**Ceriz** que vous avez acheté avec `/plant ceriz`\n`/farm` pour voir votre ferme\n`/harvest` pour récolter vos baies\nLorsque vous aurez assez de <:pokepiece:998163328247529542>**Poképièces**, vous pourrez acheter vos premières <:pokeBall:998163291543195709>**Pokéballs**\n`/rollpokemon` (cooldown de 30 minutes) pour rencontrer un pokémon aléatoire"},
-        {name: 'Commandes utiles:', value: "`/profile` pour afficher votre profile\n`/pokedex` pour afficher votre pokédex"}
+        {name: 'Comment Jouer ?', value: "`/play` pour s'enregistrer dans la base de données du bot\n`/profile` pour afficher votre profile\n`/shop` pour voir les prix des pokéballs et des baies\n`/buy` [nom de l'objet] [montant] pour acheter des pokéballs ou des baies\n`/rollpokemon` (cooldown de 30 minutes) pour rencontrer un pokémon aléatoire"},
+        {name: 'Gagner de l\'argent', value: "`/farm` pour afficher votre ferme\n`/plant` [nom de la baie] pour planter une baie dans votre ferme\n`/harvest` [nom de la baie] pour récolter vos baies\n`/upgrade` pour améliorer votre ferme\n\n`/donjon` (cooldown de 2 heures) pour explorer un donjon et tenter de trouver des coffres\n`/daily` (1x par jour) pour récupérer votre bonus quotidien"},
+        {name: 'Compléter son pokédex', value: "`/pokedex` pour afficher votre pokédex\n`/zone` <numéro de la zone> pour voir votre zone actuelle ou pour changer de zone\n`/pokemon` pour voir vos pokémons\n\n<> = option | [] = obligatoire"}
+
       )
       .setColor('#cf102a')
       .setTimestamp()

@@ -29,6 +29,7 @@ module.exports = {
       .setTimestamp()
       .setFooter({ text: client.user.username , iconURL: client.user.displayAvatarURL() })
       .addFields({name: `Level de la ferme : ${player.farm.level}`, value: val})
+      .setColor('#cf102a')
     interaction.reply({embeds: [embed] });
   }
 }

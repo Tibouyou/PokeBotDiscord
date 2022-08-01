@@ -39,6 +39,7 @@ module.exports = {
       { name: '<:ceriz:998163243895894087> Baies', value: berryString, inline: true}
     )
     .setTimestamp()
+    .setColor('#cf102a')
     .setFooter({ text: client.user.username , iconURL: client.user.displayAvatarURL() });
   
     interaction.reply({embeds: [embed] });

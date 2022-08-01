@@ -7,6 +7,25 @@ function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min +1)) + min;
 }
 
+let nbLife;
+let maxLife;
+let nbCoffre;
+let maxCoffre;
+
+const zoneMoney = {
+  1 : 50,
+  2 : 75,
+  3 : 100,
+  4 : 125,
+  5 : 162.5,
+  6 : 200,
+  7 : 250,
+  8 : 312.5,
+  9 : 375,
+  10 : 437.5,
+  11 : 500
+}
+
 const buttons = new MessageActionRow()
     .addComponents(
       new MessageButton()
@@ -34,7 +53,7 @@ let donjon;
 let size;
 
 
-async function moove(interaction, pos, client, player, pc, explored) {
+async function moove(interaction, pos, client, player, explored) {
   let moovable = true;
   const message = await interaction.message;
   switch (interaction.customId) {
@@ -83,18 +102,50 @@ async function moove(interaction, pos, client, player, pc, explored) {
     }
     desc += '\n';
   }
+  let currentCase = '';
+  switch (donjon[pos[0]][pos[1]]) {
+    case "<:dracaufeu:998691505734692976>":
+      nbLife -= 1;
+      if (nbLife <= 0) {
+        currentCase = "Oh non ! Vous êtes tombé sur un pokémon adverse !\nVous n'avez plus de vie, vous devez rentrer chez vous soigner vos pokémons !"
+      } else {
+        currentCase = 'Oh non ! Vous êtes tombé sur un pokémon adverse !';
+      }
+      break;
+    case "🏆":
+      nbCoffre += 1
+      if (nbCoffre >= maxCoffre) {
+        const amount = getRandomIntInclusive(zoneMoney[player.maxZone]*0.9,zoneMoney[player.maxZone]*1.1);
+        player.money += amount;
+        player.save();
+        currentCase = `Bravo, vous avez trouvé un coffre qui contenait ${amount} <:pokepiece:998163328247529542>!\nIl n\'y a plus aucun coffre à trouver ici, vous pouvez rentrer chez vous`;
+      } else {
+        const amount = getRandomIntInclusive(zoneMoney[player.maxZone]*0.9,zoneMoney[player.maxZone]*1.1);
+        player.money += amount;
+        player.save();
+        currentCase = `Bravo, vous avez trouvé un coffre qui contenait ${amount} <:pokepiece:998163328247529542>!`;
+      }
+      
+      break; 
+    case "🟩":
+      currentCase = "Vous n'avez rien rencontré de spécial sur cette case";
+      break;   
+  }
+
   const embed = new MessageEmbed()
     .setAuthor({ name: `${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
     .setTimestamp()
     .setFooter({ text: client.user.username , iconURL: client.user.displayAvatarURL() })
-    .setDescription(desc+`\nVous êtes sur une case : ${donjon[pos[0]][pos[1]]}\n${moovable? '' : 'Vous ne pouvez pas vous déplacer sur cette case'}`)
+    .setDescription(desc+`${'❤'.repeat(nbLife)}${'🖤'.repeat(maxLife-nbLife)}\n${currentCase}\n${moovable? '' : 'Vous ne pouvez pas vous déplacer sur cette case'}`)
+    .setColor('#cf102a')
+  if (nbLife <= 0) return interaction.update({embeds: [embed], components: [] }); 
+  if (nbCoffre >= maxCoffre) return interaction.update({embeds: [embed], components: [] });
   interaction.update({embeds: [embed], components: [buttons] });
   const filter = i => i.user.id === interaction.user.id;
   await message.awaitMessageComponent({filter, time: 30000 })
     .then(async interaction => { 
-      moove(interaction, pos, client, player, pc, explored);
+      moove(interaction, pos, client, player, explored);
     })
-    .catch(err => console.log("Temps écoulé"));
 }
 
 module.exports = {
@@ -105,8 +156,11 @@ module.exports = {
     size = getRandomIntInclusive(3,8);
     let nbChest = getRandomIntInclusive(Math.round(size/2),size);
     let nbRencontre = getRandomIntInclusive(Math.round(size/2),size);
+    nbLife = Math.round(nbRencontre * 2 / 3);
+    maxLife = Math.round(nbRencontre * 2 / 3);
+    nbCoffre = 0;
+    maxCoffre = nbChest;
     let explored;
-    let compteur = 0;
     donjon = Array.from({length: size}, () => Array.from({length: size}));
     explored = Array.from({length: size}, () => Array.from({length: size}));
     donjon[0][0] = "🟩";
@@ -133,9 +187,7 @@ module.exports = {
       }  
     }
     const player = await Player.findOne({ id: interaction.user.id }); 
-    let pc = 0;
-    player.pokemon.forEach(x => pc += x.pc);
-    let pos = [2,3];
+    let pos = [0,0];
     explored[pos[0]][pos[1]] = true;
     desc = "";
     for(let i = 0; i < size; i++) {
@@ -156,14 +208,14 @@ module.exports = {
       .setAuthor({ name: `${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
       .setTimestamp()
       .setFooter({ text: client.user.username , iconURL: client.user.displayAvatarURL() })
-      .setDescription(desc+`\nVous n'avez rien rencontré de spécial sur cette case`)
+      .setDescription(desc+`${'❤'.repeat(nbLife)}\nVous n'avez rien rencontré de spécial sur cette case`)
+      .setColor('#cf102a')
     interaction.reply({embeds: [embed], components: [buttons] });
     const message = await interaction.fetchReply();
     const filter = i => i.user.id === interaction.user.id;
     await message.awaitMessageComponent({filter, time: 30000 })
      .then(async interaction => {
-      moove(interaction, pos, client, player, pc, explored);
+      moove(interaction, pos, client, player, explored);
      })
-     .catch(err => console.log("Temps écoulé"));
   }
 }

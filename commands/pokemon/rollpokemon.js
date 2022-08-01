@@ -52,6 +52,7 @@ async function tryCatchPokemon(interaction, player, pokemonToPush) {
     const embed = new MessageEmbed()
       .setDescription(`Bravo, vous avez capturé un **${!pokemonToPush.isShiny ? `${pokemonToPush.name}**` : `${pokemonToPush.name} *Shiny*** `} PC: ${formatNumber(pokemonToPush.pc)}`)
       .setThumbnail(`attachment://${!pokemonToPush.isShiny ? pokemonToPush.number : `${pokemonToPush.number}S`}.png`)
+      .setColor('#cf102a')
     interaction.update({embeds: [embed], files: [file], components: []});
     if (!player.pokemon.map(p => p.number).includes(pokemonToPush.number)) player.pokedex += 1;
       player.pokemon.push(pokemonToPush);
@@ -88,6 +89,7 @@ async function tryCatchPokemon(interaction, player, pokemonToPush) {
     const embed = new MessageEmbed()
       .setDescription(`Vous venez de rencontrer un **${!pokemonToPush.isShiny ? `${pokemonToPush.name}** PC : ${formatNumber(pokemonToPush.pc)}` : `${pokemonToPush.name}** PC : ${formatNumber(pokemonToPush.pc)}\n \nCes couleurs semblent inhabituelles...`}\n\n Le pokémon fuira dans <t:${parseInt(Date.now()/1000+30)}:R>\n\n ${enoughBall? `Vous avez raté votre ${interaction.customId} !` : `Vous n'avez pas assez de ${interaction.customId}`}`)
       .setThumbnail(`attachment://${!pokemonToPush.isShiny ? pokemonToPush.number : `${pokemonToPush.number}S`}.png`)
+      .setColor('#cf102a')
   interaction.update({embeds: [embed], files: [file], components: [buttons]});   
   const filter = i => i.user.id === interaction.user.id;
   await message.awaitMessageComponent({filter, time: 30000 })
@@ -157,6 +159,7 @@ module.exports = {
     const embed = new MessageEmbed()
       .setDescription(`Vous venez de rencontrer un **${!pokemonToPush.isShiny ? `${pokemonToPush.name}** PC : ${formatNumber(pokemonToPush.pc)}` : `${pokemonToPush.name} ** PC : ${formatNumber(pokemonToPush.pc)}\n \nCes couleurs semblent inhabituelles...`} \n\n Le pokémon fuira <t:${parseInt(Date.now()/1000+30)}:R>`)
       .setThumbnail(`attachment://${!pokemonToPush.isShiny ? pokemonToPush.number : `${pokemonToPush.number}S`}.png`)
+      .setColor('#cf102a')
     interaction.reply({embeds: [embed], files: [file], components: [buttons]});  
     const message = await interaction.fetchReply();
     const filter = i => i.user.id === interaction.user.id;

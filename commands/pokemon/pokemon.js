@@ -25,7 +25,7 @@ const buttons = new MessageActionRow()
     }
     const embed = new MessageEmbed()
         .setAuthor({ name: `${user.tag}`, iconURL: user.displayAvatarURL() })
-        .setColor('#FF0000')
+        .setColor('#cf102a')
         .setThumbnail('https://media.discordapp.net/attachments/998631528563232798/999034290186748105/pokedex.png')
         .setTimestamp()
         .setFooter({ text: `page ${currentPage}/${numberOfPages}` , iconURL: client.user.displayAvatarURL() })

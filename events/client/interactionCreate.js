@@ -1,4 +1,4 @@
-const ownerId = '242685182900043786 ';
+const ownerId = '242685182900043786';
 const { Player, Cooldown } = require('../../models/listmodel');
 
 module.exports = {
