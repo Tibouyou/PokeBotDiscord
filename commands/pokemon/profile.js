@@ -32,7 +32,12 @@ module.exports = {
     .addFields(
       { name: '<:pokepiece:998163328247529542> Poképiece', value: `${player.money}`, inline: true },
       { name: '<:pokedex:998163325164716063> Pokédex', value: `${player.pokedex}/${sumPoke}`, inline: true },
-      { name: '<:mamre:677223686763315250> Puissance de Combat', value: `${formatNumber(pc)}`, inline: true }
+      { name: '<:4_:1001563792200712253> Puissance de Combat', value: `${formatNumber(pc)}`, inline: true }
+    )
+    .addFields(
+      { name: '🏞️ Zone Max', value: `${player.maxZone}`, inline: true },
+      { name: '🎑 Zone Actuelle', value: `${player.currentZone}`, inline: true },
+      { name: ':ear_of_rice: Ferme', value: `${player.farm.level}`, inline: true}
     )
     .addFields(
       { name: '<:pokeBall:998163291543195709> Pokéball', value: pokeballString, inline: true },
