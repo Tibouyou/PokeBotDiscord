@@ -48,17 +48,38 @@ async function tryCatchPokemon(interaction, player, pokemonToPush) {
     }
   }
   if (Math.random() < captureChance) {
-    const file = new MessageAttachment(`./assets/pokemon/${!pokemonToPush.isShiny ? pokemonToPush.number : `${pokemonToPush.number}S`}.png`);
-    const embed = new MessageEmbed()
-      .setDescription(`Bravo, vous avez capturé un **${!pokemonToPush.isShiny ? `${pokemonToPush.name}**` : `${pokemonToPush.name} *Shiny*** `} PC: ${formatNumber(pokemonToPush.pc)}`)
-      .setThumbnail(`attachment://${!pokemonToPush.isShiny ? pokemonToPush.number : `${pokemonToPush.number}S`}.png`)
-      .setColor('#cf102a')
-    interaction.update({embeds: [embed], files: [file], components: []});
-    if (!player.pokemon.map(p => p.number).includes(pokemonToPush.number)) player.pokedex += 1;
-      player.pokemon.push(pokemonToPush);
+    if ((Math.random() < 0.001) && (pokemonToPush.zone < 11)) {
+      const file = new MessageAttachment(`./assets/pokemon/${!pokemonToPush.isShiny ? '132' : `132S`}.png`);
+      const embed = new MessageEmbed()
+        .setDescription(`Incroyable, le pokémon était en fait un **${!pokemonToPush.isShiny ? `Métamorph**` : `Métamorph *Shiny*** `} PC: ${formatNumber(pokemonToPush.pc)}`)
+        .setThumbnail(`attachment://${!pokemonToPush.isShiny ? '132' : `132S`}.png`)
+        .setColor('#cf102a')
+      interaction.update({embeds: [embed], files: [file], components: []});
+      const metamorph = await new Pokemon({
+        number: 132, 
+        name: 'Métamorph', 
+        emoji: "<:132:1001566075290386545>",
+        emojiShiny: "<:132S:1001566078696181890>",
+        zone: 100, 
+        isShiny: pokemonToPush.isShiny,
+        pc: pokemonToPush.pc
+      })  
+      if (!player.pokemon.map(p => p.number).includes(132)) player.pokedex += 1;
+      player.pokemon.push(metamorph);
       player.save(); 
     } else {
+      const file = new MessageAttachment(`./assets/pokemon/${!pokemonToPush.isShiny ? pokemonToPush.number : `${pokemonToPush.number}S`}.png`);
+      const embed = new MessageEmbed()
+        .setDescription(`Bravo, vous avez capturé un **${!pokemonToPush.isShiny ? `${pokemonToPush.name}**` : `${pokemonToPush.name} *Shiny*** `} PC: ${formatNumber(pokemonToPush.pc)}`)
+        .setThumbnail(`attachment://${!pokemonToPush.isShiny ? pokemonToPush.number : `${pokemonToPush.number}S`}.png`)
+        .setColor('#cf102a')
+      interaction.update({embeds: [embed], files: [file], components: []});
+      if (!player.pokemon.map(p => p.number).includes(pokemonToPush.number)) player.pokedex += 1;
+      player.pokemon.push(pokemonToPush);
       player.save(); 
+    }
+  } else {
+    player.save(); 
     const buttons = new MessageActionRow()
     .addComponents(
       new MessageButton()
