@@ -12,21 +12,32 @@ module.exports = {
       type: 'STRING',
       required: true,
     },
+    {
+      name: 'amount',
+      description: 'Le nombre de baie à planter',
+      type: 'NUMBER',
+      required: false,
+    }
   ],  
   async runInteraction(client, interaction) {
     const player = await Player.findOne({ id: interaction.user.id });
     const farm = player.farm;
+    let amount = interaction.options.getNumber('amount');
+    if (!amount) amount = 1;
     const freePlot = farm.level - farm.plantations.length;
-    if(!freePlot) return interaction.reply('Pas de champ disponible');
+    if(!(freePlot >= amount)) return interaction.reply('Pas de assez de champ disponible');
     const baieName = interaction.options.getString('baie').toLowerCase();
     const baie = await Baie.findOne({ name: baieName });
-    if(player.inventory[baieName] == 0) return interaction.reply('Vous ne possédez pas ce type de baie');
+    if (baie == null) return interaction.reply('Ce type de baie n\'existe pas');
+    if(player.inventory[baieName] < amount) return interaction.reply('Vous ne possédez pas assez de ce type de baie');
     const createBaie = await new Baie({name: baieName, timeToGrow: baie.timeToGrow, date: parseInt(Date.now()/1000), emoji: baie.emoji, value: baie.value, seedChance: baie.seedChance});
-    player.farm.plantations.push(createBaie);
+    for (let i = 0; i < amount; i++) {
+      player.farm.plantations.push(createBaie);
+    }
     player.markModified('farm');
     player.save();
-    player.inventory[baieName] -= 1;
+    player.inventory[baieName] -= amount;
     player.markModified('inventory');
-    interaction.reply(`Baie ${createBaie.name} plantée dans le champ numéro ${player.farm.plantations.length}`);
+    interaction.reply(`${amount} baie(s) ${createBaie.name} plantée(s) !`);
   }
 }
