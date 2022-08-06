@@ -65,7 +65,13 @@ module.exports = {
         pokemonList[player.pokemon[i]['name']] += 1;
       }
     }
-    var pokemonArray = Object.keys(pokemonList);
+    var items = Object.keys(pokemonList).map(function(key) {
+      return [key, pokemonList[key]];
+    });
+    items.sort(function(first, second) {
+      return second[1] - first[1];
+    });
+    var pokemonArray = items.map(x => x[0]);
     const sumPoke = pokemonArray.length;
     const numberOfPages = Math.trunc(sumPoke / 10) + 1;
     interaction.reply({embeds: [await embedPokedex(client, player, sumPoke, numberOfPages, currentPage, user, pokemonList, pokemonArray)], components: [buttons] });
