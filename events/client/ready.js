@@ -4,10 +4,7 @@ const { Cooldown } = require('../../models/listmodel');
 
 async function reset(command) {
   let cd = await Cooldown.findOne({name:command});
-  console.log(cd);
-  console.log(cd.users);
   cd.users = [];
-  console.log(cd.users);
   cd.save();
 }
 
