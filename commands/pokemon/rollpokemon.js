@@ -129,7 +129,7 @@ async function tryCatchPokemon(interaction, player, pokemonToPush) {
 module.exports = {
   name: 'rollpokemon',
   ownerOnly: false,
-  description: 'placeholder',
+  description: 'Rencontrer un pokémon aléatoire',
   async runInteraction(client, interaction) {
     const player = await Player.findOne({ id: interaction.user.id });
     const buttons = new MessageActionRow()
