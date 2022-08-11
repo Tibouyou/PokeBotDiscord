@@ -12,7 +12,8 @@ const playerSchema = mongoose.Schema({
   pokemon: { 'type': Array, 'default': [] },
   pokedex: { 'type': Number, 'default': 0 },
   inventory: Inventory,
-  farm: Farm
+  farm: Farm,
+  encens: { 'type': Number, 'default': 0 },
 });
 
 module.exports = mongoose.model('Player', playerSchema);

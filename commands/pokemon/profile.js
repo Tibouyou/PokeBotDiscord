@@ -37,9 +37,10 @@ module.exports = {
     .addFields(
       { name: '🏞️ Zone Max', value: `${player.maxZone}`, inline: true },
       { name: '🎑 Zone Actuelle', value: `${player.currentZone}`, inline: true },
-      { name: ':ear_of_rice: Ferme', value: `${player.farm.level}`, inline: true}
+      { name: '<:Incense:1007201119690305586> Encens', value: `${player.encens}`, inline: true },
     )
     .addFields(
+      { name: ':ear_of_rice: Ferme', value: `${player.farm.level}`, inline: true},
       { name: '<:pokeBall:998163291543195709> Pokéball', value: pokeballString, inline: true },
       { name: '<:ceriz:998163243895894087> Baies', value: berryString, inline: true}
     )

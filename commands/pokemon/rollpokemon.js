@@ -23,7 +23,7 @@ const listePC = {
   10 : [524288,1000000],
   11 : [1250000,2500000]
 }
-
+  
 
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
@@ -31,7 +31,7 @@ function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min +1)) + min;
 }
 
-  
+
 async function tryCatchPokemon(interaction, player, pokemonToPush) {
   const message = await interaction.message;
   let captureChance;
@@ -159,12 +159,19 @@ module.exports = {
         .setEmoji('<:masterBall:998163290293284945>'),    
     )
     const zone = player.currentZone
-    const pokemonList = await Pokemon.find({
-      $and: [
-        {zone: { $gte: 1}},
-        {zone: { $lt : zone+1 }}
-      ]
-    });
+    let pokemonList;
+    if (zone == 1) {
+      pokemonList = await Pokemon.find({zone: zone});
+    } else if (Math.random() <= (0.75 - 1/zone)/100*player.encens+1/zone) {
+      pokemonList = await Pokemon.find({zone: zone});
+    } else {
+      pokemonList = await Pokemon.find({
+        $and: [
+          {zone: { $gte: 1}},
+          {zone: { $lt : zone }}
+        ]
+      });
+    }
     const pokemonNumber = Math.floor(Math.random() * pokemonList.length);
     const pokemon = pokemonList[pokemonNumber];
     const pokemonToPush = await new Pokemon({
@@ -172,7 +179,7 @@ module.exports = {
       name: pokemon.name, 
       emoji: pokemon.emoji,
       emojiShiny: pokemon.emojiShiny,
-      zone: pokemon.zone, 
+      zone: pokemon.zone,
       isShiny: (Math.random() <= 0.008) ? true : false,
       pc: getRandomIntInclusive(listePC[pokemon.zone][0],listePC[pokemon.zone][1])
     })  
