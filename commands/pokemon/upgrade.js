@@ -74,7 +74,7 @@ module.exports = {
             player.encens += 1;
             player.money -= 2500*(player.encens);
             player.save();
-            i.update({content:`Vous avez bien améliorer votre encens au niveau ${player.encens} vous avez maintenant ${(((0.75 - 1/player.currentZone)/100*player.encens+1/player.currentZone)*100).toFixed(2)} % de chance de capturer un pokémon de votre zone actuelle (${player.currentZone})`, components: []});
+            i.update({content:`Vous avez bien améliorer votre encens au niveau ${player.encens} vous avez maintenant ${(((0.90 - 1/player.currentZone)/100*player.encens+1/player.currentZone)*100).toFixed(2)} % de chance de capturer un pokémon de votre zone actuelle (${player.currentZone})`, components: []});
           } else {
             i.update({content:`Achat annulé !`, components: []});
           }
