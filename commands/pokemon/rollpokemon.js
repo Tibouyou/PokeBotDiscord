@@ -162,7 +162,7 @@ module.exports = {
     let pokemonList;
     if (zone == 1) {
       pokemonList = await Pokemon.find({zone: zone});
-    } else if (Math.random() <= (0.90 - 1/zone)/100*player.encens+1/zone) {
+    } else if (Math.random() <= (0.80 - 1/zone)/100*player.encens+1/zone) {
       pokemonList = await Pokemon.find({zone: zone});
     } else {
       pokemonList = await Pokemon.find({
