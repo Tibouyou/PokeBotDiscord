@@ -28,9 +28,9 @@ module.exports = {
         amount += baie.value;
       }
     }
-    player.money += amount;
+    player.money += (amount * (1+player.farm.engrais / 10));
     player.markModified('farm');
     player.save();
-    interaction.reply(`Vous avez gagné ${amount} poképièce <:pokepiece:998163328247529542> grâce à vos baies !`)
+    interaction.reply(`Vous avez gagné ${amount * (1+player.farm.engrais / 10)} poképièce <:pokepiece:998163328247529542> (${amount} +${player.farm.engrais * 10} %)grâce à vos baies !`);
   }
 }

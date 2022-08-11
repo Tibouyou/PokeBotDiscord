@@ -34,6 +34,10 @@ module.exports = {
         {
           name: 'encens',
           value: 'encens'
+        },
+        {
+          name: 'engrais',
+          value: 'engrais'
         }
       ]
     },
@@ -62,7 +66,7 @@ module.exports = {
           i.reply({content: `Vous avez cliqué sur une commande qui n'est pas à vous`, ephemeral: true});
         }
       });
-    } else {
+    } else if (upgradeType == "encens"){
       if (player.encens == 100) return interaction.reply('Votre encens est déjà au niveau maximum');
       interaction.reply({content :`Voulez vous vraiment améliorer votre encens au niveau ${player.encens+1} pour ${2500*(player.encens+1)} <:pokepiece:998163328247529542>`, components: [buttons]});
       const message = await interaction.fetchReply();
@@ -75,6 +79,27 @@ module.exports = {
             player.money -= 2500*(player.encens);
             player.save();
             i.update({content:`Vous avez bien améliorer votre encens au niveau ${player.encens} vous avez maintenant ${(((0.80 - 1/player.currentZone)/100*player.encens+1/player.currentZone)*100).toFixed(2)} % de chance de capturer un pokémon de votre zone actuelle (${player.currentZone})`, components: []});
+          } else {
+            i.update({content:`Achat annulé !`, components: []});
+          }
+        } else {
+          i.reply({content: `Vous avez cliqué sur une commande qui n'est pas à vous`, ephemeral: true});
+        }
+      });
+    } else {
+      if (player.farm.engrais == 10) return interaction.reply('Votre engrais est déjà au niveau maximum');
+      interaction.reply({content :`Voulez vous vraiment améliorer votre engrais au niveau ${player.farm.engrais+1} pour ${25000*(player.farm.engrais+1)} <:pokepiece:998163328247529542>`, components: [buttons]});
+      const message = await interaction.fetchReply();
+      const collector = message.createMessageComponentCollector({ componentType: 'BUTTON', time: 30000 });
+      collector.on('collect', async i => {
+        if (i.user.id === interaction.user.id) {
+          if (i.customId === 'confirm') {
+            if (player.money < 25000*(player.farm.engrais+1)) return i.update({content: `Il vous manque ${25000*(player.farm.engrais+1) - player.money} <:pokepiece:998163328247529542>`, components: []});
+            player.farm.engrais += 1;
+            player.markModified('farm');
+            player.money -= 25000*(player.farm.engrais);
+            player.save();
+            i.update({content:`Vous avez bien améliorer votre engrais au niveau ${player.farm.engrais} vos baies vous apporteront ${player.farm.engrais*10}% de pokécoins <:pokepiece:998163328247529542> supplémentaires`, components: []});
           } else {
             i.update({content:`Achat annulé !`, components: []});
           }
