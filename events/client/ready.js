@@ -19,7 +19,7 @@ module.exports = {
 
     Logger.client(`- prêt à être utilisé par ${usersCount} utilisateurs sur ${guildsCount.size} serveurs`);
 
-    client.user.setPresence({ activities: [{ name: 'dev', type: 'PLAYING' }], status: 'online' });
+    client.user.setPresence({ activities: [{ name: '/help', type: 'PLAYING' }], status: 'online' });
 
     //dev sur un serv
     //const devGuild = await client.guilds.cache.get('725671112658255892');
