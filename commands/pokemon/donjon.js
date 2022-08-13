@@ -169,7 +169,7 @@ module.exports = {
   ownerOnly: false,
   description: 'placeholder',
   async runInteraction(client, interaction) {
-    size = getRandomIntInclusive(3,8);
+    size = getRandomIntInclusive(3,6);
     let nbChest = getRandomIntInclusive(Math.round(size/2),size);
     let nbRencontre = getRandomIntInclusive(Math.round(size/2),size);
     nbLife = Math.round(nbRencontre * 2 / 3);
